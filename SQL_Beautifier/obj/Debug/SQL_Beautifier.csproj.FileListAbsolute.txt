@@ -1,0 +1,9 @@
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\bin\Debug\SQL_Beautifier.exe.config
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\bin\Debug\SQL_Beautifier.exe
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\bin\Debug\SQL_Beautifier.pdb
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.csprojResolveAssemblyReference.cache
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.Form1.resources
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.Properties.Resources.resources
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.csproj.GenerateResource.Cache
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.exe
+c:\users\dreedy\documents\visual studio 2015\Projects\SQL_Beautifier\SQL_Beautifier\obj\Debug\SQL_Beautifier.pdb
