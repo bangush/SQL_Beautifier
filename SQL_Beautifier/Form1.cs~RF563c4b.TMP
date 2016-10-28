@@ -12,48 +12,51 @@ namespace SQL_Beautifier
 {
   public partial class FormTab : Form
   {
-    #region Constants
-    private const string BEAUTIFY = "Beautify";
-    private const string COMMAFY = "Commafy";
-    private const string UNQUOTEIFY = "Unquoteify";
-    private const string QUOTEIFY = "Quoteify";
-    #endregion
+    string[] keywords = { "SELECT", "FROM", "WHERE", "LEFT OUTER JOIN", "LEFT JOIN", "ORDER BY", "INNER JOIN" };
 
-    #region Private Variables
-    private string[] keywords = { "SELECT", "FROM", "WHERE", "LEFT OUTER JOIN", "LEFT JOIN", "ORDER BY", "INNER JOIN", "DESC", "INSERT INTO" };
-    #endregion
-
-    #region Constructor
     public FormTab()
     {
       InitializeComponent();
-      comboBoxChoices.SelectedIndex = 0;
+      rbQuoteify.Checked = true;
       listViewKeywords.View = View.Details;
-      listViewKeywords.Columns.Add("Keywords", 200);
+      listViewKeywords.Columns.Add("Keywords");
       foreach (string keyword in keywords)
         listViewKeywords.Items.Add(keyword);
     }
 
-    #endregion
+    private void radioButton1_CheckedChanged(object sender, EventArgs e)
+    {
+      button1.Text = rbQuoteify.Text;
+    }
 
-    #region Events
-    private void buttonExecuteChoice_Click(object sender, EventArgs e)
+    private void radioButton2_CheckedChanged(object sender, EventArgs e)
+    {
+      button1.Text = rbUnquoteify.Text;
+    }
+    
+    private void rbCommafy_CheckedChanged(object sender, EventArgs e)
+    {
+      button1.Text = rbCommafy.Text;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
     {
       string[] lines = textBoxSQL.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
       string result = string.Empty;
-      
-      switch (comboBoxChoices.Text)
+
+
+      switch (comboBox1.Text)
       {
-        case BEAUTIFY:
+        case "Beautify":
           result = Beautify(lines);
           break;
-        case QUOTEIFY:
+        case "Quoteify":
           result = Quoteify(lines);
           break;
-        case UNQUOTEIFY:
+        case "Unquoteify":
           result = Unquoteify(lines);
           break;
-        case COMMAFY:
+        case "Commafy":
           result = Commafy(lines);
           break;
         default:
@@ -63,31 +66,7 @@ namespace SQL_Beautifier
 
       textBoxSQL.Text = result;
     }
-
-    private void comboBoxChoices_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      button1.Text = comboBoxChoices.Text;
-    }
-
-    private void buttonAddListviewItem_Click(object sender, EventArgs e)
-    {
-      if (!string.IsNullOrEmpty(textBoxListviewItem.Text))
-      {
-        listViewKeywords.Items.Add(textBoxListviewItem.Text.ToUpper());
-      }
-    }
-
-    private void buttonRemoveListviewItem_Click(object sender, EventArgs e)
-    {
-      foreach (ListViewItem itm in listViewKeywords.SelectedItems)
-        listViewKeywords.Items.Remove(itm);
-    }
-    #endregion
-
-    #region Private Functions
-
-    #region Choices
-    private string Beautify(string[] lines)
+    public string Beautify(string[] lines)
     {
       string result = string.Empty;
 
@@ -95,8 +74,6 @@ namespace SQL_Beautifier
       {
         string temp = line.Replace("\n", String.Empty);
         temp = temp.Replace(" ", String.Empty);
-
-        result += temp;
       }
 
       string[] keywordsWithoutSpaces = RemoveSpacesFromList(keywords);
@@ -104,20 +81,22 @@ namespace SQL_Beautifier
 
       foreach (string keyword in keywordsWithoutSpaces)
       {
-        if (keyword.Equals("SELECT") || keyword.Equals("INSERTINTO")) result = result.Replace(keyword, keyword + " ");
+        if (keyword.Equals("SELECT")) result = result.Replace(keyword, keyword + " ");
         else result = result.Replace(keyword, "\r\n" + keyword + " ");
       }
 
       result = result.Replace(",", ", ");
-
-      result = Revert(result);
+      result = result.Replace("LEFTOUTERJOIN", "LEFT OUTER JOIN");
+      result = result.Replace("INNERJOIN", "INNER JOIN");
+      result = result.Replace("LEFTJOIN", "LEFT JOIN");
+      result = result.Replace("ORDERBY", "ORDER BY");
       result = result.Replace("AND", " AND ");
       result = result.Replace("ON", " ON ");
 
       return result;
     }
 
-    private string Commafy(string[] lines)
+    public string Commafy(string[] lines)
     {
       string comma_part = string.Empty;
       for (int i = 1; i < lines.Length - 2; i++)
@@ -128,7 +107,7 @@ namespace SQL_Beautifier
       return "WHERE " + lines[0] + " IN (" + comma_part + ")";
     }
 
-    private string Quoteify(string[] lines)
+    public string Quoteify(string[] lines)
     {
       string result = string.Empty;
 
@@ -140,7 +119,7 @@ namespace SQL_Beautifier
       return result;
     }
 
-    private string Unquoteify(string[] lines)
+    public string Unquoteify(string[] lines)
     {
       string result = string.Empty;
 
@@ -150,25 +129,13 @@ namespace SQL_Beautifier
         temp = temp.Replace("&", String.Empty);
         temp = temp.Replace("_", String.Empty);
 
-        result += temp;
+        result = temp;
       }
-
+      
       return result;
     }
-    #endregion
 
-    #region Helper Methods
-    private string Revert(string givenResult)
-    {
-      foreach (string keyword in keywords)
-      {
-        givenResult = givenResult.Replace(keyword.Replace(" ", string.Empty), keyword);
-      }
-
-      return givenResult;
-    }
-
-    private string[] RemoveSpacesFromList(string[] givenLis)
+    public string[] RemoveSpacesFromList(string[] givenLis)
     {
       string[] newLis = new string[givenLis.Length];
 
@@ -177,8 +144,10 @@ namespace SQL_Beautifier
 
       return newLis;
     }
-    #endregion
 
-    #endregion
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      button1.Text = comboBox1.Text;
+    }
   }
 }
